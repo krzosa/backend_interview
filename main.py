@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 import utilityFunctions as util
+from dataStructure import dataStructure
 
 app = Flask(__name__)
 openapi = util.loadYAMLfile("openapi.yaml")
-
+database = dataStructure()
 
 @app.route("/")
 def hello():
@@ -12,13 +13,17 @@ def hello():
 
 @app.route("/schemas", methods = ["POST"])
 def addSchema():
-    print(request.form)
-    return "data has been added to repo"
+    if request.is_json:
+        hashid = database.addSchema(request.get_json())
+        return jsonify({"hash": hashid})
+    else:
+        return 404
 
 
-@app.route("/schemas/<schemaHash>")
-def getSchema(schemaHash):
-    return "successful operation"
+@app.route("/schemas/<hashid>")
+def getSchema(hashid):
+    schema = database.retrieveSchema(hashid)
+    return schema
 
 
 def main():
