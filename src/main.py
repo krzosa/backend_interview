@@ -6,7 +6,6 @@ app = Flask(__name__)
 openapi = util.loadYAMLfile("openapi.yaml")
 database = dataStructure()
 
-
 @app.route("/schemas", methods = ["POST"])
 def addSchema():
     if request.is_json:
