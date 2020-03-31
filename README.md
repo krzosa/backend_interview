@@ -1,7 +1,6 @@
+# How to run (python 3.8.2)
+    pip install -r requierments.txt
+    py main.py
 
-
-# TODO
-* class that wraps around python dictionary and only allows for adding and retrieving data, generates a hash for every added schema
-* post requests add data to a global variable 
-* get requests retrieve data from global variable
-* use some software to send requests to the server(Postman?)
+# To run tests
+    pip install jupyter notebook

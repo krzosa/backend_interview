@@ -9,7 +9,8 @@ class dataStructure():
     def addSchema(self, data):
         data = unicodedata.normalize('NFKD', str(data)).encode('ascii','ignore')
         hashid = hashlib.sha256(data).hexdigest()
-        self.dict[hashid] = data
+        if hashid not in self.dict:
+            self.dict[hashid] = data
         return hashid
 
     def retrieveSchema(self, hashid):

@@ -23,7 +23,7 @@ def addSchema():
 @app.route("/schemas/<hashid>")
 def getSchema(hashid):
     schema = database.retrieveSchema(hashid)
-    return schema
+    return jsonify(schema.decode("utf-8"))
 
 
 def main():
