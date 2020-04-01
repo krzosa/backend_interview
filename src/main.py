@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 import utilityFunctions as util
 from dataStructure import dataStructure
+from jsonschema import validate
+
 
 app = Flask(__name__)
 
@@ -9,10 +11,17 @@ database = dataStructure()
 
 @app.route("/schemas", methods = ["POST"])
 def addSchema():
-    if request.is_json:
-        hashid = database.addSchema(request.get_json())
-        return jsonify({"hash": hashid})
-    return "invalid request", 400
+    validationSchema = openapi['paths']['/schemas/']['post']['requestBody']
+
+    try:
+        if request.headers['Content-Type'] == validationSchema['content']:
+            raise Exception
+        validate(instance=request.get_json(), schema=validationSchema['content']['application/json']['schema'])
+    except:
+        return "invalid request", 400
+    
+    hashid = database.addSchema(request.get_json())
+    return jsonify({"hashlink": hashid})
 
 
 @app.route("/schemas/<hashid>")
