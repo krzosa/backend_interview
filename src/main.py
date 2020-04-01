@@ -3,6 +3,7 @@ import utilityFunctions as util
 from dataStructure import dataStructure
 
 app = Flask(__name__)
+
 openapi = util.loadYAMLfile("openapi.yaml")
 database = dataStructure()
 
@@ -11,14 +12,15 @@ def addSchema():
     if request.is_json:
         hashid = database.addSchema(request.get_json())
         return jsonify({"hash": hashid})
-    else:
-        return 404
+    return "invalid request", 400
 
 
 @app.route("/schemas/<hashid>")
 def getSchema(hashid):
     schema = database.retrieveSchema(hashid)
-    return jsonify(schema.decode("utf-8"))
+    if schema != None:
+        return jsonify(schema.decode("utf-8"))
+    return "schema not found", 404
 
 
 def main():

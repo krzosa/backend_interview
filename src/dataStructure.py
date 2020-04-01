@@ -14,5 +14,7 @@ class dataStructure():
         return hashid
 
     def retrieveSchema(self, hashid):
-        return self.dict[hashid]
+        if hashid in self.dict:
+            return self.dict[hashid]
+        return None
 
