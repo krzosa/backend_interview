@@ -14,9 +14,12 @@ def addSchema():
     validationSchema = openapi['paths']['/schemas/']['post']['requestBody']
 
     try:
-        if request.headers['Content-Type'] == validationSchema['content']:
+        if not request.is_json:
             raise Exception
-        validate(instance=request.get_json(), schema=validationSchema['content']['application/json']['schema'])
+        validate(
+            instance=request.get_json(), 
+            schema=validationSchema['content']['application/json']['schema']
+        )
     except:
         return "invalid request", 400
     
